@@ -1,8 +1,9 @@
+from dotenv import load_dotenv
 import os
 import discord
-from dotenv import load_dotenv
 
 load_dotenv()
+
 TOKEN = os.getenv('DISCORD_BOT_TOKEN')
 
 intents = discord.Intents.default()
@@ -16,8 +17,14 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
+    print(f'Message received: {message.content}') 
     if message.author == client.user:
         return
 
     if message.content.startswith('!hello'):
-        await message.channel.send('Hello!')
+        await message.channel.send('ozzo is fat')
+        
+    if message.content.startswith('!add points'):
+        await message.channel.send('adding 5 points')
+
+client.run(TOKEN)
