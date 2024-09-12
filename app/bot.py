@@ -3,6 +3,10 @@ import os
 import discord
 import boto3
 
+#Functions
+def add_points(user_id, points_to_add):
+    return False
+
 #load the info from the env file into the environmental variables
 load_dotenv()
 
@@ -70,10 +74,19 @@ async def on_message(message):
         parts = message.content.split()
         if len(parts) < 2:
             await message.channel.send(f"Usage: !addpoints @user")
-        return
+            return
     
         #Get mentioned user
-        
+        if len(message.mentions) > 0:
+            mentioned_user = message.mentions[0]
+            user_id = str(mentioned_user.id)
+            
+        await message.channel.send(f"Adding points to {mentioned_user.name}...")
+        try:
+            add_points(user_id, 10)
+            await message.channel.send(f"{mentioned_user.name} now has more points!")        
+        except Exception as e:
+            await message.channel.send(f"Error adding points {str(e)}")
     
 
 client.run(TOKEN)
