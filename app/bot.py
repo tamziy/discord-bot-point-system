@@ -54,14 +54,26 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-    print(f'Message received: {message.content}') 
+    #Prevents bot from responding to itself
     if message.author == client.user:
         return
-
-    if message.content.startswith('!hello'):
-        await message.channel.send('ozzo is fat')
+    
+    #Only admins(or specified role) can manipulate points
+    # admin_role = discord.utils.get(message.guild.roles, name="Support")
+    # if admin_role not in message.author.roles:
+    #     await message.channel.send(f"Sorry, {message.author.name}, you do not have permission to add points")
+    #     return
+    
+    #Handle points addition command
+    if message.content.startswith("!addpoints"):
+        #Checking for valid use of command
+        parts = message.content.split()
+        if len(parts) < 2:
+            await message.channel.send(f"Usage: !addpoints @user")
+        return
+    
+        #Get mentioned user
         
-    if message.content.startswith('!add points'):
-        await message.channel.send('adding 5 points')
+    
 
 client.run(TOKEN)
